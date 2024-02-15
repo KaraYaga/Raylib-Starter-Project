@@ -40,6 +40,7 @@ int main() {
         DrawCircle(ballX, ballY, 10, PINK);
         DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{75, 15}, 20, 3, PINK);
         DrawText("PONG REMASTERED", 130, 40, 15, WHITE);
+        DrawLine(200, 150, 200, 1, WHITE);
 
         EndDrawing();
     }
