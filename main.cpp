@@ -1,122 +1,7 @@
 #include "raylib.h"
+#include "Paddle1.h"
 #include <iostream>
-
 using namespace std;
-//BALL
-class Ball 
-{
-public:
-    float x, y;
-    int speedX, speedY;
-    int radius;
-
-    //DRAW BALL
-    void Draw() 
-    {
-        DrawCircle(x, y, radius, WHITE);
-    }
-    //MOVE BALL
-    void Update() 
-    {
-        x += speedX;
-        y += speedY;
-
-        //Check Collisions
-        if (y + radius >= GetScreenHeight() || y - radius <= 0) 
-        {
-            speedY *= -1;
-        }
-        if (x + radius >= GetScreenWidth() || x - radius <= 0)
-        {
-            speedX *= -1;
-        }
-    }
-};
-
-//Player1 Paddle
-class Paddle1
-{
-protected:
-    //Boundaries
-    void LimitMovement() 
-    {
-        if (y <= 0)
-        {
-            y = 0;
-        }
-        if (y + height >= GetScreenHeight())
-        {
-            y = GetScreenHeight() - height;
-        }
-    }
-
-public:
-    float x, y;
-    float width, height;
-    int speed;
-
-    //DRAW PADDLE
-    void Draw() 
-    {
-        DrawRectangle(x, y, width, height, PINK);
-    }
-
-    //MOVE PADDLE
-    void Update() 
-    {
-        if (IsKeyDown(KEY_W)) 
-        {
-            y = y - speed;
-        }
-        if (IsKeyDown(KEY_S))
-        {
-            y = y + speed;
-        }
-    }
-};
-
-//Player2 Paddle
-class Paddle2 : public Paddle1
-{
-public:
-   
-    //MOVE PADDLE
-    void Update()
-    {
-        if (IsKeyDown(KEY_UP))
-        {
-            y = y - speed;
-        }
-        if (IsKeyDown(KEY_DOWN))
-        {
-            y = y + speed;
-        }
-
-        LimitMovement();
-    }
-};
-
-class PaddleAI : public Paddle1
-{
-public :
-
-    //AI move to Hit Ball
-    void Update(int ballY) 
-    {
-        if (y + height / 2 > ballY) 
-        {
-            y = y - speed;
-        }
-        if (y + height / 2 < ballY) 
-        {
-            y = y + speed;
-        }
-
-        LimitMovement();
-    }
-};
-
-
 
 //INITIALIZE
 int main() {
@@ -168,7 +53,7 @@ int main() {
         //Paddle AI (Replace Player2)
         ai.width = 25;
         ai.height = 120;
-        ai.x = screenWidth - player2.width - 20;
+        ai.x = screenWidth - ai.width - 20;
         ai.y = screenHeight / 2 - ai.height / 2;
         ai.speed = 6;
     }
@@ -236,6 +121,11 @@ int main() {
             ClearBackground(BLACK);
 
             DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 500, 350 }, 50, 3, PINK);//Title
+
+            if (IsKeyDown(KEY_SPACE)) 
+            {
+                playingGame = true;
+            }
 
 
             //FINISH DRAWING
