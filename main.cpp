@@ -8,6 +8,7 @@ int main() {
 
     //Create Height, Width, Title of Window
     InitWindow(400, 300, "My first Raylib window!");
+    Font ft = LoadFont("resources/fonts/pixantiqua.png");
     SetTargetFPS(60);
 
     //Ball Stats
@@ -34,10 +35,11 @@ int main() {
 
         //Drawing Loop
         BeginDrawing();
-        ClearBackground(DARKGREEN);
+        ClearBackground(BLACK);
         //Draw Here
-        DrawCircle(ballX, ballY, 10, WHITE);
-        DrawText("Let's Play PONG!", 120, 20, 20, WHITE);
+        DrawCircle(ballX, ballY, 10, PINK);
+        DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{75, 15}, 20, 3, PINK);
+        DrawText("PONG REMASTERED", 130, 40, 15, WHITE);
 
         EndDrawing();
     }
