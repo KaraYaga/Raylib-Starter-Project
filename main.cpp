@@ -33,9 +33,23 @@ public:
     }
 };
 
-//Player Paddle
+//Player1 Paddle
 class Paddle1
 {
+protected:
+    //Boundaries
+    void LimitMovement() 
+    {
+        if (y <= 0)
+        {
+            y = 0;
+        }
+        if (y + height >= GetScreenHeight())
+        {
+            y = GetScreenHeight() - height;
+        }
+    }
+
 public:
     float x, y;
     float width, height;
@@ -58,32 +72,14 @@ public:
         {
             y = y + speed;
         }
-        //Boundaries
-        if (y <= 0) 
-        {
-            y = 0;
-        }
-        if (y + height >= GetScreenHeight())
-        {
-            y = GetScreenHeight() - height;
-        }
     }
 };
 
-//Player Paddle
-class Paddle2
+//Player2 Paddle
+class Paddle2 : public Paddle1
 {
 public:
-    float x, y;
-    float width, height;
-    int speed;
-
-    //DRAW PADDLE
-    void Draw()
-    {
-        DrawRectangle(x, y, width, height, PINK);
-    }
-
+   
     //MOVE PADDLE
     void Update()
     {
@@ -95,26 +91,46 @@ public:
         {
             y = y + speed;
         }
-        //Boundaries
-        if (y <= 0)
-        {
-            y = 0;
-        }
-        if (y + height >= GetScreenHeight())
-        {
-            y = GetScreenHeight() - height;
-        }
+
+        LimitMovement();
     }
 };
 
-//Instances
-Ball ball;
-Paddle1 player1;
-Paddle2 player2;
+class PaddleAI : public Paddle1
+{
+public :
+
+    //AI move to Hit Ball
+    void Update(int ballY) 
+    {
+        if (y + height / 2 > ballY) 
+        {
+            y = y - speed;
+        }
+        if (y + height / 2 < ballY) 
+        {
+            y = y + speed;
+        }
+
+        LimitMovement();
+    }
+};
+
+
 
 //INITIALIZE
 int main() {
     
+    //Game States
+    bool isPvP = false;
+    bool playingGame = false;
+
+    //Instances
+    Ball ball;
+    Paddle1 player1;
+    Paddle2 player2;
+    PaddleAI ai;
+
     //Window State
     const int screenWidth = 1280;
     const int screenHeight = 800;
@@ -138,35 +154,93 @@ int main() {
     player1.y = screenHeight / 2 - player1.height / 2;
     player1.speed = 6;
 
-    //Paddle Player2
-    player2.width = 25;
-    player2.height = 120;
-    player2.x = screenWidth - player2.width - 20;
-    player2.y = screenHeight / 2 - player2.height / 2;
-    player2.speed = 6;
-
+    if (isPvP) 
+    {
+        //Paddle Player2
+        player2.width = 25;
+        player2.height = 120;
+        player2.x = screenWidth - player2.width - 20;
+        player2.y = screenHeight / 2 - player2.height / 2;
+        player2.speed = 6;
+    }
+    else 
+    {
+        //Paddle AI (Replace Player2)
+        ai.width = 25;
+        ai.height = 120;
+        ai.x = screenWidth - player2.width - 20;
+        ai.y = screenHeight / 2 - ai.height / 2;
+        ai.speed = 6;
+    }
 
     //Update Loop
     while (!WindowShouldClose()) 
     {
-        //DRAWING LOOP
-        BeginDrawing();
+        if (playingGame) 
+        {
+            //DRAWING LOOP
+            BeginDrawing();
 
-        //UPDATE LOOP
-        ball.Update();
-        player1.Update();
-        player2.Update();
+            //UPDATE LOOP
+            player1.Update();
+            ball.Update();
+            if (isPvP)
+            {
+                player2.Update();
+            }
+            else
+            {
+                ai.Update(ball.y);
+            }
 
-        ClearBackground(BLACK);//Clears Console Background between frames
-        DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
-        ball.Draw();//Ball
-        player1.Draw();//Player 1
-        player2.Draw();//Player 2
-        DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 500, 15 }, 20, 3, PINK);//Title
+            //Collision Detection
+            if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player1.x, player1.y, player1.width, player1.height })) 
+            {
+                ball.speedX *= -1;
+            }
+            if (isPvP) 
+            {
+                if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player2.x, player2.y, player2.width, player2.height }))
+                {
+                    ball.speedX *= -1;
+                }
+            }
+            else 
+            {
+                if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ ai.x, ai.y, ai.width, ai.height }))
+                {
+                    ball.speedX *= -1;
+                }
+            }
+
+            ClearBackground(BLACK);//Clears Console Background between frames
+            DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
+            ball.Draw();//Ball
+
+            player1.Draw();//Player 1
+            if (isPvP)
+            {
+                player2.Draw();//Player 2
+            }
+            else
+            {
+                ai.Draw();//Player AI
+            }
+
+            //FINISH DRAWING
+            EndDrawing();
+        }
+        else 
+        {
+            BeginDrawing();
+            ClearBackground(BLACK);
+
+            DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 500, 350 }, 50, 3, PINK);//Title
 
 
-        //FINISH DRAWING
-        EndDrawing();
+            //FINISH DRAWING
+            EndDrawing();
+        }
     }
 
     //End program and Clear
