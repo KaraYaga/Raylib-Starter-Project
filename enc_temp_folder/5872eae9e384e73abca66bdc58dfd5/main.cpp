@@ -45,7 +45,7 @@ int main() {
         }
         DrawCircle(ballX, ballY, radius, PINK);
  
-        //Finish Drawing
+
         EndDrawing();
     }
 
