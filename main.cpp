@@ -122,8 +122,14 @@ int main() {
 
             DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 500, 350 }, 50, 3, PINK);//Title
 
-            if (IsKeyDown(KEY_SPACE)) 
+            if (IsKeyDown(KEY_G)) 
             {
+                isPvP = true;
+                playingGame = true;
+            }
+            if (IsKeyDown(KEY_H)) 
+            {
+                isPvP = false;
                 playingGame = true;
             }
 
