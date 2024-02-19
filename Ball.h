@@ -2,13 +2,18 @@
 #include "raylib.h"
 #include <iostream>
 using namespace std;
-
+//CONTAINS FUNCTIONS
 class Ball
 {
 public:
+    //Ball
     float x, y;
     int speedX, speedY;
     int radius;
+
+    //Scoring
+    int playerScore = 0;
+    int aiScore = 0;
 
     //DRAW BALL
     void Draw()
@@ -26,9 +31,13 @@ public:
         {
             speedY *= -1;
         }
-        if (x + radius >= GetScreenWidth() || x - radius <= 0)
+        if (x + radius >= GetScreenWidth())//Player 1 Score
         {
-            speedX *= -1;
+            playerScore++;
+        }
+        if (x - radius <= 0)//AI / Player 2 Score
+        {
+            aiScore++;
         }
     }
 };

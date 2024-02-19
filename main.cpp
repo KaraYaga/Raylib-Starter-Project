@@ -100,6 +100,11 @@ int main() {
 
             ClearBackground(BLACK);//Clears Console Background between frames
             DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
+
+            //SCORE
+            DrawText(TextFormat("%i", Ball.playerScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
+            DrawText(TextFormat("%i", Ball.aiScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 2 / AI
+            
             ball.Draw();//Ball
 
             player1.Draw();//Player 1
@@ -120,7 +125,9 @@ int main() {
             BeginDrawing();
             ClearBackground(BLACK);
 
-            DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 500, 350 }, 50, 3, PINK);//Title
+            DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 350, 75 }, 50, 3, PINK);//Title
+            DrawText("Press G for MultiPlayer",  450, 400, 30, WHITE);
+            DrawText("Press H for Single Player", 450, 450, 30, WHITE);
 
             if (IsKeyDown(KEY_G)) 
             {
