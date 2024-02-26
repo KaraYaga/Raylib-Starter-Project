@@ -117,38 +117,6 @@ int main() {
                 ai.Draw();//Player AI
             }
 
-            //SCORE WIN
-            //PLAYER WIN
-            if (ball.playerScore >= 10) 
-            {
-                BeginDrawing();
-                ClearBackground(BLACK);
-
-                DrawTextEx(ft, "PLAYER 1 WINS!", Vector2{ 350, 200 }, 50, 3, PINK);//PLAYER WIN
-                DrawText("Press SPACE to Restart", 450, 400, 30, WHITE);
-
-                if (IsKeyDown(KEY_SPACE)) 
-                {
-                    playingGame = false;
-                }
-
-            }
-            //AI WIN
-            if (ball.playerScore >= 10)
-            {
-                BeginDrawing();
-                ClearBackground(BLACK);
-
-                DrawTextEx(ft, "PLAYER 2 WINS!", Vector2{ 350, 200 }, 50, 3, PINK);//AI WIN
-                DrawText("Press SPACE to Restart", 450, 400, 30, WHITE);
-
-                if (IsKeyDown(KEY_SPACE))
-                {
-                    playingGame = false;
-                }
-
-            }
-
             //FINISH DRAWING
             EndDrawing();
         }
@@ -176,6 +144,38 @@ int main() {
             //FINISH DRAWING
             EndDrawing();
         }
+
+        //SCORE WIN
+           //PLAYER WIN
+        if (ball.playerScore >= 10)
+        {
+            BeginDrawing();
+            ClearBackground(BLACK);
+
+            DrawTextEx(ft, "PLAYER 1 WINS!", Vector2{ 475, 350 }, 50, 3, PINK);//PLAYER WIN
+            DrawText("Press SPACE to Restart", 475, 400, 30, WHITE);
+
+            if (IsKeyDown(KEY_SPACE))
+            {
+                playingGame = false;
+            }
+
+        }
+        //AI WIN
+        if (ball.aiScore >= 10)
+        {
+            BeginDrawing();
+            ClearBackground(BLACK);
+
+            DrawTextEx(ft, "PLAYER 2 WINS!", Vector2{ 475, 350 }, 50, 3, PINK);//AI WIN
+            DrawText("Press SPACE to Restart", 475, 400, 30, WHITE);
+
+            if (IsKeyDown(KEY_SPACE))
+            {
+                playingGame = false;
+            }
+        }
+
     }
 
     //End program and Clear
