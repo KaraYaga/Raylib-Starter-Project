@@ -44,6 +44,12 @@ public:
             y = y + speed;
         }
     }
+
+    //RESET
+    void ResetPaddle() 
+    {
+        y = 800 / 2 - height / 2;
+    }
 };
 
 //INHERIT FROM PADDLE1
@@ -65,6 +71,8 @@ public:
 
         LimitMovement();
     }
+
+    void ResetPaddle2();
 };
 
 //INHERIT FROM PADDLE  1
@@ -85,6 +93,11 @@ public:
         }
 
         LimitMovement();
+    }
+
+    void ResetAI() 
+    {
+        y = 800 / 2 - height / 2;
     }
 };
 

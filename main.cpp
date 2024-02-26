@@ -79,9 +79,9 @@ int main() {
                 playingGame = false;
                 gameOver = false;
                 ball.ResetBall();
-                player1.Reset();
-                player2.Reset();
-                ai.Reset();
+                player1.ResetPaddle();
+                player2.ResetPaddle();
+                ai.ResetAI();
             }
 
             EndDrawing();
