@@ -102,8 +102,8 @@ int main() {
             DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
 
             //SCORE
-            DrawText(TextFormat("%i", ball.playerScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
-            DrawText(TextFormat("%i", ball.aiScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 2 / AI
+            DrawText(TextFormat("%i", ball.playerScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
+            DrawText(TextFormat("%i", ball.aiScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 2 / AI
             
             ball.Draw();//Ball
 
@@ -129,12 +129,12 @@ int main() {
             DrawText("Press G for MultiPlayer",  450, 400, 30, WHITE);
             DrawText("Press H for Single Player", 450, 450, 30, WHITE);
 
-            if (IsKeyDown(KEY_G)) 
+            if (IsKeyDown(KEY_H)) 
             {
                 isPvP = true;
                 playingGame = true;
             }
-            if (IsKeyDown(KEY_H)) 
+            if (IsKeyDown(KEY_G)) 
             {
                 isPvP = false;
                 playingGame = true;
