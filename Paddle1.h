@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
+#include "Paddle2.h"
 #include <iostream>
-#include "Ball.h"
 using namespace std;
 
 //CONTAINS FUNCTIONS
@@ -50,29 +50,6 @@ public:
     {
         y = 800 / 2 - height / 2;
     }
-};
-
-//INHERIT FROM PADDLE1
-class Paddle2 : public Paddle1
-{
-public:
-
-    //MOVE PADDLE
-    void Update()
-    {
-        if (IsKeyDown(KEY_UP))
-        {
-            y = y - speed;
-        }
-        if (IsKeyDown(KEY_DOWN))
-        {
-            y = y + speed;
-        }
-
-        LimitMovement();
-    }
-
-    void ResetPaddle2();
 };
 
 //INHERIT FROM PADDLE  1

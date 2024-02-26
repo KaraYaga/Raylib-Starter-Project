@@ -13,7 +13,7 @@ public:
 
     //Scoring
     int playerScore = 0;
-    int aiScore = 0;
+    int opponentScore = 0;
 
     //DRAW BALL
     void Draw()
@@ -38,7 +38,7 @@ public:
         }
         if (x - radius <= 0)//AI / Player 2 Score
         {
-            aiScore++;
+            opponentScore++;
             ResetBall();
         }
     }

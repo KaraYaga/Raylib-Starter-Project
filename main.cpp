@@ -10,6 +10,7 @@ int main() {
     bool isPvP = false;
     bool playingGame = false;
     bool gameOver = false;
+    bool gameMenu = true;
 
     //Instances
     Ball ball;
@@ -23,7 +24,7 @@ int main() {
     InitWindow(screenWidth, screenHeight, "PONG");
     SetTargetFPS(60);
 
-    //Font LIbrary
+    //Font Library
     Font ft = LoadFont("resources/fonts/pixantiqua.png");
 
     //Ball
@@ -63,123 +64,36 @@ int main() {
     while (!WindowShouldClose())
     {
         //GAME OVER
-        if (gameOver) {
+        if (gameOver) 
+        {
+            playingGame = false;
+            gameMenu = false;
             BeginDrawing();
             ClearBackground(BLACK);
 
             if (ball.playerScore >= 10) {
                 DrawTextEx(ft, "PLAYER 1 WINS!", Vector2{ 475, 350 }, 50, 3, PINK);//PLAYER WIN
             }
-            else if (ball.aiScore >= 10) {
+            else if (ball.opponentScore >= 10) {
                 DrawTextEx(ft, "PLAYER 2 WINS!", Vector2{ 475, 350 }, 50, 3, PINK);//AI WIN
             }
             DrawText("Press SPACE to Restart", 475, 400, 30, WHITE);
 
-            if (IsKeyDown(KEY_SPACE)) {
+            if (IsKeyDown(KEY_SPACE)) 
+            {
                 playingGame = false;
                 gameOver = false;
-                ball.ResetBall();
-                player1.ResetPaddle();
-                player2.ResetPaddle();
-                ai.ResetAI();
+                gameMenu = true;
             }
 
             EndDrawing();
         }
-        //PLAYING GAME
-        else 
+        //MAIN MENU
+        if (gameMenu) 
         {
-            if (playingGame)
+            playingGame = false;
+            gameOver = false;
             {
-                //DRAWING LOOP
-                BeginDrawing();
-
-                //UPDATE LOOP
-                player1.Update();
-                ball.Update();
-                if (isPvP)
-                {
-                     player2.Update();
-                }
-                else
-                {
-                    ai.Update(ball.y);
-                }
-
-                // PLAYER 1 PADDLE BOUNDARIES
-                if (player1.y < 0) {
-                    player1.y = 0;
-                }
-                else if (player1.y + player1.height > screenHeight) {
-                    player1.y = screenHeight - player1.height;
-                }
-                // Player 2 paddle or AI paddle
-                if (isPvP) {
-                    if (player2.y < 0) {
-                        player2.y = 0;
-                    }
-                    else if (player2.y + player2.height > screenHeight) {
-                        player2.y = screenHeight - player2.height;
-                    }
-                }
-                else {
-                    if (ai.y < 0) {
-                        ai.y = 0;
-                    }
-                    else if (ai.y + ai.height > screenHeight) {
-                        ai.y = screenHeight - ai.height;
-                    }
-                }
-
-                //Collision Detection
-                if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player1.x, player1.y, player1.width, player1.height }))
-                {
-                    ball.speedX *= -1;
-                }
-                if (isPvP)
-                {
-                    if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player2.x, player2.y, player2.width, player2.height }))
-                    {
-                        ball.speedX *= -1;
-                    }
-                }
-                else
-                {
-                    if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ ai.x, ai.y, ai.width, ai.height }))
-                    {
-                        ball.speedX *= -1;
-                    }
-                }
-
-                ClearBackground(BLACK);//Clears Console Background between frames
-                DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
-
-                //SCORE
-                DrawText(TextFormat("%i", ball.playerScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
-                DrawText(TextFormat("%i", ball.aiScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 2 / AI
-
-                ball.Draw();//Ball
-
-                player1.Draw();//Player 1
-                if (isPvP)
-                {
-                    player2.Draw();//Player 2
-                }
-                else
-                {
-                    ai.Draw();//Player AI
-                }
-
-                // Check for game over conditions
-                if (ball.playerScore >= 10 || ball.aiScore >= 10) {
-                    gameOver = true;
-                }
-
-                //FINISH DRAWING
-                EndDrawing();
-            }
-            //MAIN MENU
-            else {
                 BeginDrawing();
                 ClearBackground(BLACK);
 
@@ -191,11 +105,134 @@ int main() {
                 {
                     isPvP = true;
                     playingGame = true;
+                    gameMenu = false;
                 }
                 if (IsKeyDown(KEY_G))
                 {
                     isPvP = false;
                     playingGame = true;
+                    gameMenu = false;
+                }
+                //FINISH DRAWING
+                EndDrawing();
+            }
+        }
+        //PLAYING GAME
+        else 
+        {
+            //PvP Player vs. Player
+            if (playingGame && isPvP)
+            {
+                //DRAWING LOOP
+                BeginDrawing();
+
+                //UPDATE LOOP
+                player1.Update();
+                player2.Update();
+                ball.Update();
+               
+                // PLAYER 1 PADDLE BOUNDARIES
+                if (player1.y < 0) 
+                {
+                    player1.y = 0;
+                }
+                else if (player1.y + player1.height > screenHeight) {
+                    player1.y = screenHeight - player1.height;
+                }
+                // PLAYER 2 PADDLE BOUNDARIES
+                if (player2.y < 0) 
+                {
+                    player2.y = 0;
+                }
+                else if (player2.y + player2.height > screenHeight) 
+                {
+                     player2.y = screenHeight - player2.height;
+                }
+
+                //COLLISION DETECTION
+                if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player1.x, player1.y, player1.width, player1.height }))
+                {
+                    ball.speedX *= -1;
+                }
+                if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player2.x, player2.y, player2.width, player2.height }))
+                {
+                    ball.speedX *= -1;
+                }
+
+                ClearBackground(BLACK);//Clears Console Background between frames
+                DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
+
+                //SCORE
+                DrawText(TextFormat("%i", ball.playerScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
+                DrawText(TextFormat("%i", ball.opponentScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 2
+
+                ball.Draw();//Ball
+
+                player1.Draw();//Player 1
+                player2.Draw();//Player 2
+               
+                // Check for game over conditions
+                if (ball.playerScore >= 10 || ball.opponentScore >= 10) 
+                {
+                    gameOver = true;
+                }
+
+                //FINISH DRAWING
+                EndDrawing();
+            }
+            //PvC Player vs. Computer
+            if (playingGame && !isPvP)
+            {
+                //DRAWING LOOP
+                BeginDrawing();
+
+                //UPDATE LOOP
+                player1.Update();
+                ai.Update(ball.y);
+                ball.Update();
+
+                // PLAYER 1 PADDLE BOUNDARIES
+                if (player1.y < 0) {
+                    player1.y = 0;
+                }
+                else if (player1.y + player1.height > screenHeight) {
+                    player1.y = screenHeight - player1.height;
+                }
+                // AI PADDLE BOUNDARIES
+                if (ai.y < 0) 
+                {
+                    ai.y = 0;
+                }
+                else if (ai.y + ai.height > screenHeight) 
+                {
+                    ai.y = screenHeight - ai.height;
+                }
+                
+                //Collision Detection
+                if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ player1.x, player1.y, player1.width, player1.height }))
+                {
+                    ball.speedX *= -1;
+                }
+                if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, Rectangle{ ai.x, ai.y, ai.width, ai.height }))
+                {
+                    ball.speedX *= -1;
+                }
+
+                ClearBackground(BLACK);//Clears Console Background between frames
+                DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
+
+                //SCORE
+                DrawText(TextFormat("%i", ball.playerScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
+                DrawText(TextFormat("%i", ball.opponentScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //AI
+
+                ball.Draw();//Ball
+                player1.Draw();//Player 1
+                ai.Draw();//Player AI
+
+                // Check for game over conditions
+                if (ball.playerScore >= 10 || ball.opponentScore >= 10) 
+                {
+                    gameOver = true;
                 }
 
                 //FINISH DRAWING
