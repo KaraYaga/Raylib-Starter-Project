@@ -117,6 +117,38 @@ int main() {
                 ai.Draw();//Player AI
             }
 
+            //SCORE WIN
+            //PLAYER WIN
+            if (ball.playerScore >= 10) 
+            {
+                BeginDrawing();
+                ClearBackground(BLACK);
+
+                DrawTextEx(ft, "PLAYER 1 WINS!", Vector2{ 350, 200 }, 50, 3, PINK);//PLAYER WIN
+                DrawText("Press SPACE to Restart", 450, 400, 30, WHITE);
+
+                if (IsKeyDown(KEY_SPACE)) 
+                {
+                    playingGame = false;
+                }
+
+            }
+            //AI WIN
+            if (ball.playerScore >= 10)
+            {
+                BeginDrawing();
+                ClearBackground(BLACK);
+
+                DrawTextEx(ft, "PLAYER 2 WINS!", Vector2{ 350, 200 }, 50, 3, PINK);//AI WIN
+                DrawText("Press SPACE to Restart", 450, 400, 30, WHITE);
+
+                if (IsKeyDown(KEY_SPACE))
+                {
+                    playingGame = false;
+                }
+
+            }
+
             //FINISH DRAWING
             EndDrawing();
         }
@@ -126,8 +158,8 @@ int main() {
             ClearBackground(BLACK);
 
             DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 350, 75 }, 50, 3, PINK);//Title
-            DrawText("Press G for MultiPlayer",  450, 400, 30, WHITE);
-            DrawText("Press H for Single Player", 450, 450, 30, WHITE);
+            DrawText("Press H for MultiPlayer",  450, 400, 30, WHITE);
+            DrawText("Press G for Single Player", 450, 450, 30, WHITE);
 
             if (IsKeyDown(KEY_H)) 
             {
@@ -149,4 +181,4 @@ int main() {
     //End program and Clear
     CloseWindow();
     return 0;
-}
+};

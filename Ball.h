@@ -34,11 +34,23 @@ public:
         if (x + radius >= GetScreenWidth())//Player 1 Score
         {
             playerScore++;
+            ResetBall();
         }
         if (x - radius <= 0)//AI / Player 2 Score
         {
             aiScore++;
+            ResetBall();
         }
+    }
+    //RESET BALL
+    void ResetBall() 
+    {
+        x = GetScreenWidth() / 2;
+        y = GetScreenHeight() / 2;
+
+        int speedRandomized[2] = { -1,1 };
+        speedX *= speedRandomized[GetRandomValue(0, 1)];
+        speedY *= speedRandomized[GetRandomValue(0, 1)];
     }
 };
 
