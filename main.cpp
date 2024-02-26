@@ -99,7 +99,7 @@ int main() {
                 ball.Update();
                 if (isPvP)
                 {
-                    player2.Update();
+                     player2.Update();
                 }
                 else
                 {
