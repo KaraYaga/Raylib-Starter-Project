@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Ball.h"
 using namespace std;
+
 //CONTAINS FUNCTIONS
 class Paddle1
 {
