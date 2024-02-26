@@ -102,8 +102,8 @@ int main() {
             DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
 
             //SCORE
-            DrawText(TextFormat("%i", Ball.playerScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
-            DrawText(TextFormat("%i", Ball.aiScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 2 / AI
+            DrawText(TextFormat("%i", ball.playerScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 1 
+            DrawText(TextFormat("%i", ball.aiScore), screenWidth / 4 - 20, 20, 80, WHITE); //Player 2 / AI
             
             ball.Draw();//Ball
 
