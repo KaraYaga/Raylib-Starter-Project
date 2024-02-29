@@ -100,6 +100,7 @@ int main() {
                 DrawTextEx(ft, "PONGO BONGO GOGO GIRL!", Vector2{ 350, 75 }, 50, 3, PINK);//Title
                 DrawText("Press H for MultiPlayer", 450, 400, 30, WHITE);
                 DrawText("Press G for Single Player", 450, 450, 30, WHITE);
+                ball.ResetScore();
 
                 if (IsKeyDown(KEY_H))
                 {

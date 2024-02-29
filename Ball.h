@@ -52,5 +52,11 @@ public:
         speedX *= speedRandomized[GetRandomValue(0, 1)];
         speedY *= speedRandomized[GetRandomValue(0, 1)];
     }
+
+    void ResetScore() 
+    {
+        opponentScore = 0;
+        playerScore = 0;
+    }
 };
 
