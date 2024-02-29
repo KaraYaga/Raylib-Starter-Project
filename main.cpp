@@ -50,7 +50,7 @@ int main() {
         player2.y = screenHeight / 2 - player2.height / 2;
         player2.speed = 6;
     }
-    else
+    if (!isPvP)
     {
         //Paddle AI (Replace Player2)
         ai.width = 25;
@@ -107,6 +107,7 @@ int main() {
                     isPvP = true;
                     playingGame = true;
                     gameMenu = false;
+                    cout << ("Multiplayer Selected");
                 }
                 if (IsKeyDown(KEY_G))
                 {
@@ -119,10 +120,10 @@ int main() {
             }
         }
         //PLAYING GAME
-        else 
+        if (playingGame)
         {
             //PvP Player vs. Player
-            if (playingGame && isPvP)
+            if (isPvP)
             {
                 //DRAWING LOOP
                 BeginDrawing();
@@ -130,6 +131,7 @@ int main() {
                 //UPDATE LOOP
                 player1.Update();
                 player2.Update();
+                cout << ("[DEBUG]: Player 2 Updated");
                 ball.Update();
                
                 // PLAYER 1 PADDLE BOUNDARIES
@@ -147,7 +149,7 @@ int main() {
                 }
                 else if (player2.y + player2.height > screenHeight) 
                 {
-                     player2.y = screenHeight - player2.height;
+                     player2.y = screenHeight - player2.height; 
                 }
 
                 //COLLISION DETECTION
@@ -159,7 +161,6 @@ int main() {
                 {
                     ball.speedX *= -1;
                 }
-
                 ClearBackground(BLACK);//Clears Console Background between frames
                 DrawLine(screenWidth / 2, 0, screenWidth / 2, screenHeight, WHITE);//Middle Line
 
@@ -168,7 +169,6 @@ int main() {
                 DrawText(TextFormat("%i", ball.opponentScore), 3 * screenWidth / 4 - 20, 20, 80, WHITE); //Player 2
 
                 ball.Draw();//Ball
-
                 player1.Draw();//Player 1
                 player2.Draw();//Player 2
                
@@ -182,7 +182,7 @@ int main() {
                 EndDrawing();
             }
             //PvC Player vs. Computer
-            if (playingGame && !isPvP)
+            if (!isPvP)
             {
                 //DRAWING LOOP
                 BeginDrawing();

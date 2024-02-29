@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "Ball.h"
 #include <iostream>
+using namespace std;
 
 //CONTAINS FUNCTIONS
 class Paddle2
@@ -29,6 +30,7 @@ public:
     void Draw()
     {
         DrawRectangle(x, y, width, height, PINK);
+        cout << ("[DEBUG]: Player 2 Drawn");
     }
 
     //MOVE PADDLE
@@ -37,10 +39,12 @@ public:
         if (IsKeyDown(KEY_UP))
         {
             y = y - speed;
+            cout << ("[DEBUG]: Player 2 move UP");
         }
         if (IsKeyDown(KEY_DOWN))
         {
             y = y + speed;
+            cout << ("[DEBUG]: Player 2 move DOWN");
         }
 
         LimitMovement();
